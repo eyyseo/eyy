@@ -166,7 +166,11 @@ const CONFIG = {
   // Google Apps Script web-app URL (ends in /exec). When set, submissions are sent
   // automatically. When empty, the site falls back to showing the two emails as drafts.
   scriptUrl: "https://script.google.com/macros/s/AKfycbzjHtaGVvbtLrshzdWjDpgk6pCBD-j1LijLSl4wPTm66btMAl5a4OH5If6uSHAjVdoB/exec",
-  candidates: [],   // loaded from the Google script when the page opens
+  // Member list. If you leave it empty ([]), the list is loaded from the Google script instead.
+  candidates: [
+    "Μαρία Παπαδοπούλου", "Γιώργος Νικολάου", "Ελένη Γεωργίου", "Νίκος Αλεξίου",
+    "Κατερίνα Δημητρίου", "Δημήτρης Ιωάννου", "Σοφία Κωνσταντίνου", "Ανδρέας Βασιλείου"
+  ],
   roles: ["ΔΣ", "ΕΥΥ", "ΕΕ"],
   thirdPartyEmail: "",   // only used if scriptUrl is empty
   thirdPartyName: "Επιτροπή Υποβολής Υποψηφιοτήτων",
@@ -523,7 +527,7 @@ function showQuota(n) {
   }
 }
 
-let membersLoaded = false;
+let membersLoaded = CONFIG.candidates.length > 0;   // names written in this file take priority
 
 async function loadQuota() {
   try {
@@ -563,6 +567,7 @@ $("backBtn").addEventListener("click", () => {
   $(id).addEventListener("input", () => { $(id).classList.remove("invalid"); showErr(id + "Err", false); }));
 
 nominations = freshList();
+if (membersLoaded) $("listStatus").classList.add("hidden");
 render();
 </script>
 </body>
